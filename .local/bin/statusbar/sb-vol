@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# alsa
+#level=$(amixer sget PCM | awk -F"[][]" '/Left:/ {print $2}' | sed 's/\%//')
+
+# pulse (pulsemixer)
+level=$(pulsemixer --get-volume | awk '{print $1}')
+mute=$(pulsemixer --get-mute)
+
+if [ $mute -eq 1 ];then
+	icon="🔇"
+	printf "%s" "${icon}"
+	exit
+elif [ $level -gt 100 ];then
+	icon="📢"
+elif [ $level -gt 60 ];then
+	icon="🔊"
+elif [ $level -gt 30 ];then
+	icon="🔉"
+elif [ $level -gt 0 ];then
+	icon="🔈"
+else
+	icon="🔇"
+	exit
+fi
+
+printf "%s" "${icon}${level}"

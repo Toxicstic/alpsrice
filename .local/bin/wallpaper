@@ -1,0 +1,8 @@
+#!/bin/sh
+
+wallpaperloc=/mnt/sdcard/px/bg/
+
+result=$(find $wallpaperloc -type f | dmenu -p "Select:")
+xwallpaper --zoom $result
+cp -f $result ~/.local/share/bg.jpg 
+notify-send "$(echo $result | sed -e 's@/home/jitze/px/bg/@@g' -e 's/\.jpg//g' )" "has been set as the wallpaper!"

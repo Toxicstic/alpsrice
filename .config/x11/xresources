@@ -1,0 +1,24 @@
+*.alpha: 0.75
+
+*.background: #000000
+*.foreground: #ffffff
+
+! Black - Red - Green - Yellow - Blue - Magenta - Cyan - Gray
+*.color0: #697689
+*.color1: #eb144c
+*.color2: #40bf40
+*.color3: #fcb900 
+*.color4: #406fbf
+*.color5: #a46dac
+*.color6: #0096a0
+*.color7: #d9e3f0
+
+! Dark Gray - Light Red - Light Green - Light Yellow - Light Blue - Light Magenta - Light Cyan - White
+*.color8:  #697689
+*.color9:  #eb144c
+*.color10: #40bf40
+*.color11: #fcb900
+*.color12: #406fbf
+*.color13: #a46dac
+*.color14: #0096a0
+*.color15: #ffffff

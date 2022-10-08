@@ -1,0 +1,80 @@
+#!/bin/sh
+
+
+note () {
+	notify-send "Mouse Action" "${1}click has been turned ${2}"
+}
+
+case $1 in
+
+	"c")
+		xdotool mouseup 1
+		xdotool mouseup 2
+		xdotool mouseup 3
+		notify-send "Mouse Action" "Keys reset"
+		;;
+
+	"r")
+		xdotool mousemove_relative 50 0 
+		;;
+	
+	"l")
+		xdotool mousemove_relative -- -50 0 
+		;;
+
+	"u")
+		xdotool mousemove_relative -- 0 -50
+		;;
+	
+	"d")
+		xdotool mousemove_relative 0 50 
+		;;
+
+	"lc")
+		xdotool click 1
+		;;
+
+	"mc")
+		xdotool click 2
+		;;
+
+	"rc")
+		xdotool click 3
+		;;
+	
+	"lh")
+		state=$(xinput query-state 4 | grep 'button\[1\]' | sed s/.*\=//)
+		if [ $state = "up" ];then
+			xdotool mousedown 1
+			note "left" "on"
+		else
+			xdotool mouseup 1
+			note "left" "off"
+		fi
+		;;
+
+	"mh")
+		state=$(xinput query-state 4 | grep 'button\[2\]' | sed s/.*\=//)
+		if [ $state = "up" ];then
+			xdotool mousedown 2
+			note "middle" "on"
+		else
+			xdotool mouseup 2
+			note "middle" "off"
+		fi
+		;;
+
+	"rh")
+		state=$(xinput query-state 4 | grep 'button\[3\]' | sed s/.*\=//)
+		if [ $state = "up" ];then
+			xdotool mousedown 3
+			note "right" "on"
+		else 
+			xdotool mouseup 3		
+			note "right" "off"
+		fi
+		;;
+	esac 
+
+	finalstate=$(xinput query-state 4)
+	echo $finalstate

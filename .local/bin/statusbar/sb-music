@@ -1,0 +1,40 @@
+#!/bin/sh
+
+data=$(playerctl metadata > /tmp/musicmetadata)
+
+title=$(cat /tmp/musicmetadata | grep -w title | cut -d' ' -f 9- | sed -e 's/^[ \t]*//')
+album=$(cat /tmp/musicmetadata | grep -w album | cut -d' ' -f 9- | sed -e 's/^[ \t]*//')
+artist=$(cat /tmp/musicmetadata | grep -w artist | cut -d' ' -f 9- | sed -e 's/^[ \t]*//')
+
+status=$(playerctl status)
+
+if [[ $status == "Playing" ]];then
+	icon="⏸"
+elif [[ $status == "Paused" ]];then
+	icon="▶"
+else
+	icon=""
+	title=""
+fi
+
+#case $BLOCK_BUTTON in
+#	1) playerctl play-pause ;;
+#	2) 
+#if [[ $status == "Playing" ]];then
+#notify-send "🎙 Music Module" "Now Playing:
+#Artist	$artist
+#Album	$album
+#Title	$title"
+#else
+#notify-send "🎙 Music Module" "Nothing Playing!"
+#fi ;;
+#	3) notify-send "🎙 Music Module" "\- Left click to play/pause
+#- Shift left click to open spt
+#- Middle click to show song information
+#- Scroll down to go to the previous, up to go to the next song" ;;
+#	4) playerctl next ;;
+#	5) playerctl previous ;;
+#	6) setsid -f "$TERMINAL" -e spt ;;
+#esac
+
+echo $icon$title

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# initiate configs
+[ -f $HOME/.config/x11/xresources ] && xrdb -merge .config/x11/xresources &
+[ -f $HOME/.local/share/bg.jpg ] && xwallpaper --zoom ~/.local/share/bg.jpg &
+
+# compositor
+xcompmgr & 
+
+# hide cursor touch screen
+unclutter --hide-on-touch &
+
+# statusbar
+dwmblocks &
+
+# screensaver
+xscreensaver --no-splash &
+
+# chromebook keyboard layout
+setxkbmap -layout us -variant intl -model chromebook &
+
+# window manager
+exec dwm

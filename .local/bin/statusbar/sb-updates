@@ -1,0 +1,10 @@
+#!/bin/sh
+
+icon="📦"
+list=$(apk list -u | wc -l)
+
+if [ $list -eq 0 ];then
+	:
+else
+	printf "%s" "$icon$list"
+fi

@@ -1,0 +1,95 @@
+call plug#begin()
+    Plug 'lervag/vimtex'
+    let g:vimtex_view_general_viewer='mupdf'
+    let g:vimtex_view_method='mupdf'
+
+	Plug 'evanleck/vim-svelte'
+call plug#end()
+
+" SETTINGS
+    set noshowmode
+    set nowrap
+    set termguicolors
+
+    set shiftwidth=4
+    set softtabstop=4
+    set tabstop=4
+    set foldmethod=indent
+	set foldlevelstart=999
+	let g:markdown_folding = 1
+
+    syntax on
+    filetype plugin indent on
+
+
+" PER FILE SETTINGS
+    "autocmd BufWritePost src.tex execute '!pdflatex ./src.tex && killall -q zathura && setsid zathura ./src.pdf'
+    "autocmd BufWritePost src.tex execute '!pdflatex ./src.tex && kill -SIGHUP $(pidof mupdf)' execute 'normal <CR>'
+	
+	"function CompileLatex()
+	"	let view = winsaveview()
+	"	silent! execute '!pdflatex ./src.tex && kill -SIGHUP $(pidof mupdf)' 
+	"	silent! normal gg
+	"	call winrestview(view)
+	"endfunction
+	"autocmd BufWritePost src.tex exe CompileLatex()
+
+    autocmd BufEnter src.tex set spell spelllang=nl linebreak wrap
+    "autocmd BufWritePost ~/.local/src/dwmblocks/config.h !cd ~/.local/src/dwmblocks/; doas make install && { killall -q dwmblocks;setsid dwmblocks & }
+
+    autocmd BufEnter *.md setlocal textwidth=80 cc=80 wrap 
+    autocmd BufEnter *.tex setlocal wrap
+
+" SNIPPETS
+    nnoremap ,html :-1read $HOME/.local/share/nvim/snippets/template.html<CR>
+    nnoremap ,tex :-1read $HOME/.local/share/nvim/snippets/template.tex<CR>/!<CR>a
+
+let g:currentmode={
+            \ 'n'      : 'NORMAL',
+            \ 'no'     : 'NORMAL PENDING',
+            \ 'v'      : 'VISUAL',
+            \ 'V'      : 'VISUAL LINE',
+            \ ''     : 'VISUAL BLOCK',
+            \ 's'      : 'SELECT',
+            \ 'S'      : 'SELECT LINE',
+            \ '^S'     : 'SELECT BLOCK',
+            \ 'i'      : 'INSERT',
+            \ 'R'      : 'REPLACE',
+            \ 'Rv'     : 'VISUAL REPLACE',
+            \ 'c'      : 'COMMAND',
+            \ 'cv'     : 'VIM EX',
+            \ 'ce'     : 'EX',
+            \ 'r'      : 'PROMPT',
+            \ 'rm'     : 'MORE',
+            \ 'r?'     : 'CONFIRM',
+            \ '!'      : 'SHELL',
+            \ 't'      : 'TERMINAL'
+            \}
+
+function DrawStatusBar()
+    set statusline=""
+
+    if (mode() =~# '\v(n|no)')
+        set statusline+=%#Pmenu#
+    elseif (mode() =~# '\v(v|V)' || g:currentmode[mode()] ==# 'VISUAL BLOCK')
+        set statusline+=%#StatusLine#
+    elseif (mode() ==# 'i')
+        set statusline+=%#StatusLine#
+    else
+        set statusline+=%#StatusLine#
+    endif
+
+    set statusline+=\ %{toupper(g:currentmode[mode()])}\ 
+    set statusline+=%#StatusLine#
+    set statusline+=\ %M%t
+    set statusline+=%r\ 
+    set statusline+=%#CursorLine#
+    set statusline+=%=
+    set statusline+=%#Pmenu#
+    set statusline+=\ %Y\ 
+    set statusline+=%#StatusLine#
+    set statusline+=\ \(%l:%c\)
+endfunction
+
+exe DrawStatusBar()
+" au ModeChanged *:** exe DrawStatusBar()

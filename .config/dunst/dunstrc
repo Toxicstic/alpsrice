@@ -1,0 +1,16 @@
+[global]
+font = Monospace 10
+offset = 0x20
+frame_width = 2
+frame_color = "#40bf40"
+timeout=10
+
+[urgency_low]
+    background = "#373e47"
+
+[urgency_normal]
+    background = "#373e47"
+
+[urgency_critical]
+    background = "#373e47"
+    frame_color = "#ff3333"

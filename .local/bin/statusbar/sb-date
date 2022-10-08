@@ -1,0 +1,4 @@
+#!/bin/sh
+
+icon=📅
+printf "%s%s" "$icon" "$(date +'%a %e %b')"

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+spotifyd --no-daemon -b pulseaudio &
+st -e spt &
+wait -n
+
+pkill -P $$

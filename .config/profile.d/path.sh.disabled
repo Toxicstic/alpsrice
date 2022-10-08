@@ -1,0 +1,22 @@
+# fix command paths
+# for suckless tools
+append_path () {
+	case ":$PATH:" in
+		*:"$1":*)
+			;;
+		*)
+			PATH="${PATH:+$PATH:}$1"
+			;;
+	esac
+}
+
+append_path "/usr/local/sbin"
+append_path "/usr/local/bin"
+append_path "/usr/sbin"
+append_path "/usr/bin"
+append_path "/sbin"
+append_path "/bin"
+append_path "~/.local/bin/"
+append_path "~/.local/bin/statusbar/"
+
+unset -f append_path

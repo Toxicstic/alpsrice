@@ -1,0 +1,5 @@
+#!/bin/sh
+
+result=$(printf "" | dmenu)
+[ $result -z ] && exit
+chromium-browser "https://duckduckgo.com/?q=$result"

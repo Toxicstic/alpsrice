@@ -1,0 +1,4 @@
+#!/bin/sh
+
+icon="🚀"
+printf "%s%s" "$icon" "$(free -h | awk '{print $3}' | head -2 | tail -1)"

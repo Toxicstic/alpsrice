@@ -1,0 +1,5 @@
+#!/bin/sh
+
+grep -v "#" ~/.local/share/ap-list | dmenu -m 0 | awk '{print $1}' | tr -d '\n' | xsel -ib
+
+#pgrep -x dunst >/dev/null && notify-send "${xclip -ob} copied to clipboard"

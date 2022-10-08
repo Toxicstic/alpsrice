@@ -1,0 +1,6 @@
+#!/bin/sh
+
+pdfs=$(find ~/ /mnt/sdcard \( -name "*.pdf" -o -name "*.PDF" \) )
+result=$(printf "%s\n" "$pdfs" | sed -e "s@/.*/@@g" -e "s@\.pdf@@g" -e "s@\.PDF@@g" | dmenu -l 50)
+open=$(printf "%s" "$pdfs\n" | grep "$result")
+mupdf "$open"

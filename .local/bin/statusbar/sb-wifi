@@ -1,0 +1,6 @@
+#!/bin/sh
+
+strength=$(iwconfig | head -6 | tail -1 | awk '{ print $2 }' | sed s/Quality\=// | sed s@/70@@)
+calculation=$( echo "$strength / 70 * 100" | bc -l | sed 's/\..*//')
+icon=📡
+echo "${icon}${calculation}"

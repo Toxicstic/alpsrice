@@ -1,0 +1,8 @@
+#!/bin/sh
+
+current=$(cat /sys/class/power_supply/BAT0/capacity)
+status=$(cat /sys/class/power_supply/BAT0/status)
+
+[ $status = "Charging" ] && icon="🔌" || { [ $current -le 30 ] && icon=🪫 || icon=🔋 ;}
+[ $status = "Discharging" ] && { [ $current -eq 14 ] || [ $current -eq 10 ] || [ $current -eq 5 ] ;} && notify-send "🪫" "Battery low!"
+echo "$icon$current"

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+BOOKMARK_PATH=$HOME/.config/chromium/Default/Bookmarks
+
+BOOK_NAME=$(jq  -r '.roots.other.children[].name' $BOOKMARK_PATH)
+BOOK_URL=$(jq  -r '.roots.other.children[].url' $BOOKMARK_PATH)
+
+bookmarks=$(pr -2 -t -s <<eof
+$BOOK_NAME
+$BOOK_URL
+eof
+)
+
+bookmarks=$(printf "%s" "$bookmarks" | column -ts $'\t' -o '::')
+bookmarks_names=$(printf "%s" "$bookmarks\n" | awk 'BEGIN {FS="::";}{ print $1 }')
+result=$(printf "%s" "$bookmarks_names\n" | sed -e '/^\#FOLD\#/d' -e 's/\\n//g' | dmenu)
+[ $result -z ] && exit
+result_url=$(printf "%s" "$bookmarks\n" | grep $result | awk 'BEGIN {FS="::";}{ print $2 }' )
+[ $result_url -z ] && exit
+chromium-browser $(echo $result_url | sed 's/\\n//g')

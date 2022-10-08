@@ -1,0 +1,65 @@
+#!/bin/sh
+
+#
+#	Jitzlet - a quizlet clone for the command line.
+#	POSIX compliant and very based.
+#
+
+IFS="$(printf '\n')"
+
+# COLORS
+Red='[1;31m'
+Green='[1;32m'
+Reset='[0;0m'
+
+if [ -f $1 ];then
+	:
+else
+	echo "${Red}ERROR ==> ${Bad}Wrong Input File!"
+	exit
+fi
+
+# VARS
+keys=$(cat $1 | sed -e "s/.*\t//g" -e "s/\t//g")
+values=$(cat $1 | sed -e "s/\t.*//g" -e "s/\t//g")
+lines=$(cat $1 | wc -l)
+rand=$(shuf -i1-$lines -n$lines)
+wrong="${Red}Errors:${Reset}"
+
+i=1; while [ $i -le $lines ]; do
+
+	currentrand=$(echo $rand | head -$i | tail -1)
+	current=$(echo $values | head -$currentrand | tail -1)
+	ans=$(echo $keys | head -$currentrand | tail -1)
+
+	echo $current
+	read -p "> " res
+
+	validate() 
+	{
+		if [ "${res}" = "${ans}" ];then
+			printf "${Green}CORRECT${Reset}\n"
+		else
+			printf "${Green}ANSWER${Reset} ${ans}\n"
+			read -p "Was your answer correct? [Y/N]> " yn
+
+			case $yn in 
+				[Yy] ) printf "${Green}Nice!${Reset}\n" ;;
+				[Nn] )
+					printf "${Red}:(, aahw${Reset}\n"
+					wrong="${wrong}\n${current} - ${Green}${ans}${Reset}" ;;
+				* ) validate 
+			esac
+		fi
+	}
+
+	validate
+
+	i=$(( $i + 1 )) 
+	progress=$(echo $i $lines 100 | awk '{ printf "%f", $1 / $2 * $3 - $1 / $2 }')
+	echo -e "${progress}%\n"
+done
+
+wronglist=$(echo $wrong | sort)
+
+printf "${wronglist}\n"

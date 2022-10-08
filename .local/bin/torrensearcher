@@ -1,0 +1,15 @@
+#!/bin/sh
+
+result=$(printf "%s" | dmenu -p "Torrent Search" | tr ' ' '+')
+movie=$(curl -s https://1337x.to/search/$result/1/ | grep -Eo "torrent\/[0-9]{7}\/[a-zA-Z0-9?%-]*/")
+if [ $result -z ];then
+	exit
+elif [ $movie -z ];then
+	notify-send "No Results Found!"
+else
+	movieres=$(curl -s https://1337x.to/search/$result/1/ | grep -Eo "torrent\/[0-9]{7}\/[a-zA-Z0-9?%-]*/" | dmenu -p "Select")
+	echo $movieres
+	magnet=$(curl -s https://1337x.to/${movieres} | grep -o magnet:\?xt=urn:btih:[a-zA-Z0-9]* | head -1)
+	#setsid st -n "Downloading torrent..." -e sh -c "transmission-cli ${magnet}"
+	transmission-cli -w ~/dox/down/ ${magnet}
+fi

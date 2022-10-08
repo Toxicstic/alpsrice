@@ -1,0 +1,4 @@
+#!/bin/sh
+
+file=$(find ~/ -type f | dmenu)
+setsid nvim $file

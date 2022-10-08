@@ -1,0 +1,17 @@
+#!/bin/sh
+
+result=$(echo -e "logout\nreboot\npoweroff" | dmenu -p "Select")
+case $result in
+	"poweroff")
+		yn=$(echo -e "yes\nno" | dmenu -p "are you sure?")
+		[ yn="yes" ] && doas /sbin/poweroff
+		;;
+	"logout")
+		yn=$(echo -e "yes\nno" | dmenu -p "are you sure?")
+		[ yn="yes" ] && kill -9 -1 
+		;;
+	"reboot")
+		yn=$(echo -e "yes\nno" | dmenu -p "are you sure?")
+		[ yn="yes" ] && doas /sbin/reboot
+		;;
+esac

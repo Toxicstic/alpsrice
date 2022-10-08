@@ -1,0 +1,3 @@
+#!/bin/sh
+
+doas watch -tn 2 "dmesg | tail -25"
