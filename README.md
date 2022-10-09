@@ -13,6 +13,10 @@
 
 - Vimplug (https://github.com/vimplug/vimplug)
 
+## for ~/.local/bin/spotify
+- spotifyd
+- spotify-tui
+
 ## source in ~/.local/src/
 - dwm
 - dmenu
