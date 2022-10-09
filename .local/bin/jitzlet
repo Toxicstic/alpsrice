@@ -3,6 +3,7 @@
 #
 #	Jitzlet - a quizlet clone for the command line.
 #	POSIX compliant and very based.
+#	see .local/share/jitzlet-example.txt
 #
 
 IFS="$(printf '\n')"
